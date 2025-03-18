@@ -7,7 +7,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         boolean run = true;
 
-        tasks = Task.loadTask();
+        tasks = Task.loadTask("tasks.txt");
 
         while (run) {
             System.out.println("\n--- To-Do List ---");
@@ -29,9 +29,9 @@ public class Main {
             } else if (choice == 4) {
                 Task.deleteTask(tasks, scanner);
             } else if (choice == 5) {
-                Task.saveTask(tasks);
+                Task.saveTask(tasks, "tasks.txt");
             } else if (choice == 6){
-                Task.saveTask(tasks);
+                Task.saveTask(tasks, "tasks.txt");
                 System.out.println("Выход из приложения...");
                 run = false;
             } else {

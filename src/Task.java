@@ -59,24 +59,40 @@ public class Task {
         }
     }
 
-    static void saveTask(ArrayList<Task> tasks) {
-      try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("task.txt"))) {
-          oos.writeObject(tasks);
-          System.out.println("Задачи сохранены.");
-      } catch (IOException e) {
-          System.out.println("Произошла ошибка " + e.getMessage());
-      }
+    static void saveTask(ArrayList<Task> tasks, String filename) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
+            for (Task task:tasks) {
+                writer.write(task.toFileString());
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Ошибка при сохранении задач в файл" + e.getMessage());
+        }
     }
 
-    static ArrayList<Task> loadTask() {
+    String toFileString() {
+        return (isCompleted ? "[X] " : "[ ] ") + "| " + desc;
+    }
+
+    static ArrayList<Task> loadTask(String filename) {
         ArrayList<Task> tasks = new ArrayList<>();
-        try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream("task.txt"))) {
-            tasks = (ArrayList<Task>) ois.readObject();
-        } catch (FileNotFoundException e) {
-            System.out.println("Файл не найден, создание файла произойдет автоматически");
-        } catch (Exception e) {
-            System.out.println("Произошла ошибка " + e.getMessage());
+        try (BufferedReader reader = new BufferedReader(new FileReader(filename))){
+            String line;
+            while ((line = reader.readLine()) != null) {
+                tasks.add(Task.fromFileString(line));
+            }
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
         }
         return tasks;
+    }
+
+    static Task fromFileString(String fileString) {
+        String[] parts = fileString.split("\\|", 2);
+        boolean isCompleted = parts[0].equals("1");
+        String desc = parts[1];
+        Task task = new Task(desc);
+        task.isCompleted = isCompleted;
+        return task;
     }
 }
