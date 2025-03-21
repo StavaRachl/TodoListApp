@@ -74,6 +74,7 @@ public class Task {
         return (isCompleted ? "[X] " : "[ ] ") + "| " + desc;
     }
 
+
     static ArrayList<Task> loadTask(String filename) {
         ArrayList<Task> tasks = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))){
@@ -94,5 +95,16 @@ public class Task {
         Task task = new Task(desc);
         task.isCompleted = isCompleted;
         return task;
+    }
+
+    static void getMessages() {
+        System.out.println("\n--- To-Do List ---");
+        System.out.println("1. Показать задачи");
+        System.out.println("2. Добавить задачу");
+        System.out.println("3. Отметить задачу как выполненную");
+        System.out.println("4. Удалить задачу");
+        System.out.println("5. Сохранить задачу");
+        System.out.println("6. Выйти");
+        System.out.println("Выберите действие: ");
     }
 }

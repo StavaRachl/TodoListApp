@@ -10,16 +10,11 @@ public class Main {
         tasks = Task.loadTask("tasks.txt");
 
         while (run) {
-            System.out.println("\n--- To-Do List ---");
-            System.out.println("1. Показать задачи");
-            System.out.println("2. Добавить задачу");
-            System.out.println("3. Отметить задачу как выполненную");
-            System.out.println("4. Удалить задачу");
-            System.out.println("5. Сохранить задачу");
-            System.out.println("6. Выйти");
-            System.out.println("Выберите действие: ");
+            Task.getMessages();
+
             int choice = scanner.nextInt();
             scanner.nextLine();
+
             if (choice == 1) {
                 Task.showTasks(tasks);
             } else if (choice == 2) {
